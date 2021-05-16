@@ -1,13 +1,11 @@
 package checks;
 
-import com.puppycrawl.tools.checkstyle.StatelessCheck;
-import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
-import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
-public class MethodLengthCheck extends AbstractCheck {
+
+public class MethodLengthCheck {
 
     private static final int DEFAULT_MAX_LINES = 150;
 
@@ -15,12 +13,12 @@ public class MethodLengthCheck extends AbstractCheck {
 
     private int max = DEFAULT_MAX_LINES;
 
-    public boolean visitToken(DetailAST ast) {
+    public boolean visitToken(DetailAST ast, FileContents fileContents) {
         final DetailAST openingBrace = ast.findFirstToken(TokenTypes.SLIST);
         if (openingBrace != null) {
             final DetailAST closingBrace =
                     openingBrace.findFirstToken(TokenTypes.RCURLY);
-            final int length = getLengthOfBlock(openingBrace, closingBrace);
+            final int length = getLengthOfBlock(openingBrace, closingBrace, fileContents);
             return length > max;
         }
         return false;
@@ -33,17 +31,16 @@ public class MethodLengthCheck extends AbstractCheck {
      * @param closingBrace block closing brace
      * @return number of lines with code for current block
      */
-    private int getLengthOfBlock(DetailAST openingBrace, DetailAST closingBrace) {
+    private int getLengthOfBlock(DetailAST openingBrace, DetailAST closingBrace, FileContents fileContents) {
         int length = closingBrace.getLineNo() - openingBrace.getLineNo() + 1;
 
         if (!countEmpty) {
-            final FileContents contents = getFileContents();
             final int lastLine = closingBrace.getLineNo();
             // lastLine - 1 is actual last line index. Last line is line with curly brace,
             // which is always not empty. So, we make it lastLine - 2 to cover last line that
             // actually may be empty.
             for (int i = openingBrace.getLineNo() - 1; i <= lastLine - 2; i++) {
-                if (contents.lineIsBlank(i) || contents.lineIsComment(i)) {
+                if (fileContents.lineIsBlank(i) || fileContents.lineIsComment(i)) {
                     length--;
                 }
             }
