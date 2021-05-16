@@ -35,6 +35,7 @@ public class BrainMethodCheck
     private boolean failsMaxNesting;
     private boolean failsNumberOfVariables;
 
+
     /**
      * Setter to control whether to treat the whole switch block as a single decision point.
      *
@@ -71,7 +72,7 @@ public class BrainMethodCheck
                 TokenTypes.QUESTION,
                 TokenTypes.LAND,
                 TokenTypes.LOR,
-                TokenTypes.COMPACT_CTOR_DEF,
+//                TokenTypes.COMPACT_CTOR_DEF,
         };
     }
 
@@ -92,7 +93,7 @@ public class BrainMethodCheck
                 TokenTypes.QUESTION,
                 TokenTypes.LAND,
                 TokenTypes.LOR,
-                TokenTypes.COMPACT_CTOR_DEF,
+//                TokenTypes.COMPACT_CTOR_DEF,
         };
     }
 
@@ -103,7 +104,7 @@ public class BrainMethodCheck
                 TokenTypes.METHOD_DEF,
                 TokenTypes.INSTANCE_INIT,
                 TokenTypes.STATIC_INIT,
-                TokenTypes.COMPACT_CTOR_DEF,
+//                TokenTypes.COMPACT_CTOR_DEF,
         };
     }
 
@@ -114,7 +115,7 @@ public class BrainMethodCheck
             case TokenTypes.METHOD_DEF:
             case TokenTypes.INSTANCE_INIT:
             case TokenTypes.STATIC_INIT:
-            case TokenTypes.COMPACT_CTOR_DEF:
+//            case TokenTypes.COMPACT_CTOR_DEF:
                 visitMethodDef();
                 break;
             default:
@@ -129,7 +130,7 @@ public class BrainMethodCheck
             case TokenTypes.METHOD_DEF:
             case TokenTypes.INSTANCE_INIT:
             case TokenTypes.STATIC_INIT:
-            case TokenTypes.COMPACT_CTOR_DEF:
+//            case TokenTypes.COMPACT_CTOR_DEF:
                 leaveMethodDef(ast);
                 break;
             default:
@@ -164,7 +165,7 @@ public class BrainMethodCheck
         if (currentValue.compareTo(bigIntegerMax) > 0) {
             log(ast, MSG_KEY, currentValue, bigIntegerMax);
         }
-        popValue();
+//        popValue();
     }
 
     /**
@@ -179,7 +180,7 @@ public class BrainMethodCheck
 
     /** Process the start of the method definition. */
     private void visitMethodDef() {
-        pushValue();
+//        pushValue();
         failsCyclomatic = false;
         failsNumberOfVariables = false;
         failsLOC = false;

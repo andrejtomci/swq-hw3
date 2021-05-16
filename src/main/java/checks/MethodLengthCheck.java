@@ -31,7 +31,7 @@ public class MethodLengthCheck {
      * @param closingBrace block closing brace
      * @return number of lines with code for current block
      */
-    private int getLengthOfBlock(DetailAST openingBrace, DetailAST closingBrace, FileContents fileContents) {
+    protected int getLengthOfBlock(DetailAST openingBrace, DetailAST closingBrace, FileContents fileContents) {
         int length = closingBrace.getLineNo() - openingBrace.getLineNo() + 1;
 
         if (!countEmpty) {
