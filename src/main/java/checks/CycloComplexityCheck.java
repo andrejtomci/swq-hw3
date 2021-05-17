@@ -40,6 +40,11 @@ public class CycloComplexityCheck {
         this.switchBlockAsSingleDecisionPoint = switchBlockAsSingleDecisionPoint;
     }
 
+    /* get result of last left method */
+    public boolean isViolationDetected() {
+        return violationDetected;
+    }
+
     /**
      * Setter to specify the maximum threshold allowed.
      *
