@@ -42,6 +42,7 @@ public class CycloComplexityTest {
 
     @Test
     public void variableDefDoesNotCount() {
+
         CycloComplexityCheck check = new CycloComplexityCheck();
 
         check.setMax(1);
@@ -56,6 +57,7 @@ public class CycloComplexityTest {
 
     @Test
     public void outsideMethodNotCount() {
+
         CycloComplexityCheck check = new CycloComplexityCheck();
 
         check.setMax(1);
@@ -265,5 +267,68 @@ public class CycloComplexityTest {
         check.leaveToken(astBundle.constructorAST);
 
         assertTrue(check.isViolationDetected());
+    }
+
+    @Test
+    public void testComplexScenarioViolationEqual() {
+
+        CycloComplexityCheck check = new CycloComplexityCheck();
+
+        check.setMax(4);
+
+        check.visitToken(astBundle.constructorAST);
+        check.visitToken(astBundle.forAST);
+        check.visitToken(astBundle.ifAST);
+        check.leaveToken(astBundle.ifAST);
+        check.visitToken(astBundle.ifAST);
+        check.leaveToken(astBundle.ifAST);
+        check.leaveToken(astBundle.forAST);
+        check.visitToken(astBundle.doAST);
+        check.leaveToken(astBundle.doAST);
+        check.leaveToken(astBundle.constructorAST);
+
+        assertTrue(check.isViolationDetected());
+    }
+
+    @Test
+    public void testComplexScenarioViolationMore() {
+
+        CycloComplexityCheck check = new CycloComplexityCheck();
+
+        check.setMax(4);
+
+        check.visitToken(astBundle.constructorAST);
+        check.visitToken(astBundle.forAST);
+        check.visitToken(astBundle.ifAST);
+        check.leaveToken(astBundle.ifAST);
+        check.visitToken(astBundle.ifAST);
+        check.leaveToken(astBundle.ifAST);
+        check.leaveToken(astBundle.forAST);
+        check.visitToken(astBundle.doAST);
+        check.leaveToken(astBundle.doAST);
+        check.visitToken(astBundle.whileAST);
+        check.leaveToken(astBundle.whileAST);
+        check.leaveToken(astBundle.constructorAST);
+
+        assertTrue(check.isViolationDetected());
+    }
+
+    @Test
+    public void testComplexScenarioNoViolation() {
+
+        CycloComplexityCheck check = new CycloComplexityCheck();
+
+        check.setMax(4);
+
+        check.visitToken(astBundle.constructorAST);
+        check.visitToken(astBundle.forAST);
+        check.visitToken(astBundle.ifAST);
+        check.leaveToken(astBundle.ifAST);
+        check.leaveToken(astBundle.forAST);
+        check.visitToken(astBundle.whileAST);
+        check.leaveToken(astBundle.whileAST);
+        check.leaveToken(astBundle.constructorAST);
+
+        assertFalse(check.isViolationDetected());
     }
 }
