@@ -9,6 +9,7 @@ import java.util.Deque;
 
 public class NestedLogicCheck {
 
+
     private static final class Pair<T, U> {
 
         private final T first;
@@ -56,6 +57,11 @@ public class NestedLogicCheck {
      */
     public final void setMax(int max) {
         this.max = max;
+    }
+
+    /* get result of last left method */
+    public boolean isViolationDetected() {
+        return violationDetected;
     }
 
 
@@ -145,6 +151,7 @@ public class NestedLogicCheck {
     private void pushValue() {
         valueStack.push(new Pair<>(currentDepth, maxDepthAchieved));
         currentDepth = INITIAL_VALUE;
+        maxDepthAchieved = INITIAL_VALUE;
     }
 
     /**
