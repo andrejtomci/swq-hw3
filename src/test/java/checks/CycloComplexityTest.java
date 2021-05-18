@@ -64,8 +64,8 @@ public class CycloComplexityTest {
 
         check.visitToken(astBundle.methodAST);
         check.leaveToken(astBundle.methodAST);
-        check.visitToken(astBundle.variableAST);
-        check.leaveToken(astBundle.variableAST);
+        check.visitToken(astBundle.forAST);
+        check.leaveToken(astBundle.forAST);
 
         assertFalse(check.isViolationDetected());
     }
