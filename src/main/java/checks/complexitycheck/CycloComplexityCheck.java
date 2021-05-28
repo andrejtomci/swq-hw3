@@ -7,7 +7,7 @@ import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class CycloComplexityCheck {
+public class CycloComplexityCheck  implements SimpleCheckInterface{
 
     /** The initial current value. */
     private static final BigInteger INITIAL_VALUE = BigInteger.ONE;
@@ -40,7 +40,8 @@ public class CycloComplexityCheck {
         this.switchBlockAsSingleDecisionPoint = switchBlockAsSingleDecisionPoint;
     }
 
-    /* get result of last left method */
+    /* get result for last left method */
+    @Override
     public boolean isViolationDetected() {
         return violationDetected;
     }
@@ -54,6 +55,7 @@ public class CycloComplexityCheck {
         this.max = max;
     }
 
+    @Override
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -82,6 +84,7 @@ public class CycloComplexityCheck {
         }
     }
 
+    @Override
     public void leaveToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -89,7 +92,7 @@ public class CycloComplexityCheck {
             case TokenTypes.INSTANCE_INIT:
             case TokenTypes.STATIC_INIT:
             //case TokenTypes.COMPACT_CTOR_DEF:
-                leaveMethodDef(ast);
+                leaveMethodDef();
                 break;
             default:
                 break;
@@ -115,10 +118,8 @@ public class CycloComplexityCheck {
 
     /**
      * Process the end of a method definition.
-     *
-     * @param ast the token representing the method definition
      */
-    private void leaveMethodDef(DetailAST ast) {
+    private void leaveMethodDef() {
         final BigInteger bigIntegerMax = BigInteger.valueOf(max);
         if (currentValue.compareTo(bigIntegerMax) > 0) {
             violationDetected = true;

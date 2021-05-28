@@ -7,10 +7,10 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
 
-public class NumberOfVariablesCheck {
+public class NumberOfVariablesCheck  implements SimpleCheckInterface {
     private static final int DEFAULT_MAX_VARIABLES = 10;
     private int max = DEFAULT_MAX_VARIABLES;
-    private boolean violates;
+    private boolean violationDetected;
 
     private HashSet<String> variables;
     private final Deque<HashSet<String>> valueStack = new ArrayDeque<>();
@@ -43,8 +43,13 @@ public class NumberOfVariablesCheck {
         }
     }
 
+    @Override
+    public boolean isViolationDetected() {
+        return violationDetected;
+    }
+
     private void visitMethodDef() {
-        violates = false;
+        violationDetected = false;
         valueStack.push(variables);
         variables = new HashSet<>();
     }
@@ -59,11 +64,12 @@ public class NumberOfVariablesCheck {
     }
 
     private void leaveMethodDef() {
-        violates = variables.size() > max;
+        violationDetected = variables.size() > max;
         variables = valueStack.pop();
     }
 
     public void setMax(int numberOfVariables) {
         max = numberOfVariables;
     }
+
 }

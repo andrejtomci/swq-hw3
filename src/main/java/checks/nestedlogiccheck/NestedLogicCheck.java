@@ -7,7 +7,7 @@ import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class NestedLogicCheck {
+public class NestedLogicCheck  implements SimpleCheckInterface{
 
 
     private static final class Pair<T, U> {
@@ -30,13 +30,13 @@ public class NestedLogicCheck {
 
     }
 
-    /** The initial current value. */
+    /** The initial current depth */
     private static final BigInteger INITIAL_VALUE = BigInteger.ZERO;
 
-    /** Default allowed complexity. */
+    /** Default allowed nesting depth */
     private static final int DEFAULT_NESTING_DEPTH = 3;
 
-    /** The current value. */
+    /** The current depth */
     private BigInteger currentDepth = INITIAL_VALUE;
 
     /** The maximal achieved nesting depth in the method **/
@@ -55,16 +55,18 @@ public class NestedLogicCheck {
      *
      * @param max the maximum threshold
      */
+    @Override
     public final void setMax(int max) {
         this.max = max;
     }
 
-    /* get result of last left method */
+    /* get result for last left method */
+    @Override
     public boolean isViolationDetected() {
         return violationDetected;
     }
 
-
+    @Override
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -82,7 +84,7 @@ public class NestedLogicCheck {
             case TokenTypes.LITERAL_SWITCH:
             case TokenTypes.LITERAL_CATCH:
             case TokenTypes.QUESTION:
-                visitTokenHook(ast);
+                visitTokenHook();
                 break;
 
             default:
@@ -90,6 +92,7 @@ public class NestedLogicCheck {
         }
     }
 
+    @Override
     public void leaveToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -97,7 +100,7 @@ public class NestedLogicCheck {
             case TokenTypes.INSTANCE_INIT:
             case TokenTypes.STATIC_INIT:
                 //case TokenTypes.COMPACT_CTOR_DEF:
-                leaveMethodDef(ast);
+                leaveMethodDef();
                 break;
             case TokenTypes.LITERAL_WHILE:
             case TokenTypes.LITERAL_DO:
@@ -106,7 +109,7 @@ public class NestedLogicCheck {
             case TokenTypes.LITERAL_SWITCH:
             case TokenTypes.LITERAL_CATCH:
             case TokenTypes.QUESTION:
-                leaveTokenHook(ast);
+                leaveTokenHook();
                 break;
 
             default:
@@ -117,17 +120,19 @@ public class NestedLogicCheck {
     /**
      * Hook called when visiting a token. Will not be called the method
      * definition tokens.
-     *
-     * @param ast the token being visited
      */
-    private void visitTokenHook(DetailAST ast) {
+    private void visitTokenHook() {
         incrementCurrentValue(BigInteger.ONE);
         if (currentDepth.compareTo(maxDepthAchieved) > 0) {
             maxDepthAchieved = currentDepth;
         }
     }
 
-    private void leaveTokenHook(DetailAST ast) {
+    /**
+     * leaves control logic token,
+     * if we somehow leave more than visit, we throw an error
+     */
+    private void leaveTokenHook() {
         if (currentDepth.compareTo(BigInteger.ZERO) <= 0) {
             throw new IllegalStateException("More closed control tokens than opened.");
         }
@@ -136,10 +141,8 @@ public class NestedLogicCheck {
 
     /**
      * Process the end of a method definition.
-     *
-     * @param ast the token representing the method definition
      */
-    private void leaveMethodDef(DetailAST ast) {
+    private void leaveMethodDef() {
         final BigInteger bigIntegerMax = BigInteger.valueOf(max);
         if (maxDepthAchieved.compareTo(bigIntegerMax) > 0) {
             violationDetected = true;

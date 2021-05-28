@@ -6,7 +6,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
 
 
-public class MethodLengthCheck {
+public class MethodLengthCheck implements SimpleCheckInterface{
 
     private static final int DEFAULT_MAX_LINES = 50;
 
@@ -14,9 +14,9 @@ public class MethodLengthCheck {
 
     private int max = DEFAULT_MAX_LINES;
 
-    private boolean violates;
+    private boolean violationDetected;
 
-    private FileContents fileContents;
+    private final FileContents fileContents;
 
     public MethodLengthCheck(FileContents fileContents) {
         this.fileContents = fileContents;
@@ -26,13 +26,13 @@ public class MethodLengthCheck {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
             case TokenTypes.METHOD_DEF:
-                violates = false;
+                violationDetected = false;
                 final DetailAST openingBrace = ast.findFirstToken(TokenTypes.SLIST);
                 if (openingBrace != null) {
                     final DetailAST closingBrace =
                             openingBrace.findFirstToken(TokenTypes.RCURLY);
                     final int length = getLengthOfBlock(openingBrace, closingBrace);
-                    violates = length > max;
+                    violationDetected = length > max;
                 }
                 break;
             default:
@@ -89,8 +89,8 @@ public class MethodLengthCheck {
         this.countEmpty = countEmpty;
     }
 
-    public boolean getViolates() {
-        return violates;
+    public boolean isViolationDetected() {
+        return violationDetected;
     }
 
 }
