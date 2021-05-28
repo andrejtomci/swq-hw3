@@ -1,5 +1,7 @@
-package checks;
+package checks.variablenumcheck;
 
+import checks.contracts.CheckSetOptionVisitor;
+import checks.contracts.SimpleCheckInterface;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
@@ -8,6 +10,7 @@ import java.util.Deque;
 import java.util.HashSet;
 
 public class NumberOfVariablesCheck  implements SimpleCheckInterface {
+
     private static final int DEFAULT_MAX_VARIABLES = 10;
     private int max = DEFAULT_MAX_VARIABLES;
     private boolean violationDetected;
@@ -15,6 +18,7 @@ public class NumberOfVariablesCheck  implements SimpleCheckInterface {
     private HashSet<String> variables;
     private final Deque<HashSet<String>> valueStack = new ArrayDeque<>();
 
+    @Override
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -30,6 +34,7 @@ public class NumberOfVariablesCheck  implements SimpleCheckInterface {
         }
     }
 
+    @Override
     public void leaveToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -68,8 +73,14 @@ public class NumberOfVariablesCheck  implements SimpleCheckInterface {
         variables = valueStack.pop();
     }
 
+    @Override
     public void setMax(int numberOfVariables) {
         max = numberOfVariables;
+    }
+
+    @Override
+    public void acceptVisitor(CheckSetOptionVisitor visitor) {
+        visitor.visit(this);
     }
 
 }

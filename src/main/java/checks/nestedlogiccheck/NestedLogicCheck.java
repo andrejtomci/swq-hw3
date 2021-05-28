@@ -1,5 +1,7 @@
-package checks;
+package checks.nestedlogiccheck;
 
+import checks.contracts.CheckSetOptionVisitor;
+import checks.contracts.SimpleCheckInterface;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
@@ -7,7 +9,11 @@ import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class NestedLogicCheck  implements SimpleCheckInterface{
+/**
+ * Puppet checker class to search for methods with too much nesting
+ * Based on checkstyles cyclomatic complexity check.
+ */
+public class NestedLogicCheck  implements SimpleCheckInterface {
 
 
     private static final class Pair<T, U> {
@@ -58,6 +64,11 @@ public class NestedLogicCheck  implements SimpleCheckInterface{
     @Override
     public final void setMax(int max) {
         this.max = max;
+    }
+
+    @Override
+    public void acceptVisitor(CheckSetOptionVisitor visitor) {
+        visitor.visit(this);
     }
 
     /* get result for last left method */

@@ -1,12 +1,18 @@
-package checks;
+package checks.methodlencheck;
 
+import checks.contracts.CheckSetOptionVisitor;
+import checks.contracts.SimpleCheckInterface;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
 
-
-public class MethodLengthCheck implements SimpleCheckInterface{
+/**
+ * Puppet checker class to search for too long methods.
+ * The code for this class was taken from the official checkstyle implementation
+ * and tweaked to fit some new requirements.
+ */
+public class MethodLengthCheck implements SimpleCheckInterface {
 
     private static final int DEFAULT_MAX_LINES = 50;
 
@@ -22,6 +28,7 @@ public class MethodLengthCheck implements SimpleCheckInterface{
         this.fileContents = fileContents;
     }
 
+    @Override
     public void visitToken(DetailAST ast) {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
@@ -40,10 +47,10 @@ public class MethodLengthCheck implements SimpleCheckInterface{
         }
     }
 
+    @Override
     public void leaveToken(DetailAST ast) {
 
     }
-
 
     /**
      * Returns length of code only without comments and blank lines.
@@ -74,8 +81,14 @@ public class MethodLengthCheck implements SimpleCheckInterface{
      *
      * @param length the maximum length of a method.
      */
+    @Override
     public void setMax(int length) {
         max = length;
+    }
+
+    @Override
+    public void acceptVisitor(CheckSetOptionVisitor visitor) {
+        visitor.visit(this);
     }
 
     /**
@@ -89,6 +102,7 @@ public class MethodLengthCheck implements SimpleCheckInterface{
         this.countEmpty = countEmpty;
     }
 
+    @Override
     public boolean isViolationDetected() {
         return violationDetected;
     }

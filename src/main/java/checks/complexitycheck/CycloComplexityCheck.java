@@ -1,5 +1,7 @@
-package checks;
+package checks.complexitycheck;
 
+import checks.contracts.CheckSetOptionVisitor;
+import checks.contracts.SimpleCheckInterface;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
@@ -7,7 +9,12 @@ import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class CycloComplexityCheck  implements SimpleCheckInterface{
+/**
+ * A puppet checker that searches for functions with high cyclomatic complexity.
+ * The code of this class was taken from the official checkstyle implementation
+ * and tweaked to fit some new behaviour.
+ */
+public class CycloComplexityCheck  implements SimpleCheckInterface {
 
     /** The initial current value. */
     private static final BigInteger INITIAL_VALUE = BigInteger.ONE;
@@ -53,6 +60,11 @@ public class CycloComplexityCheck  implements SimpleCheckInterface{
      */
     public final void setMax(int max) {
         this.max = max;
+    }
+
+    @Override
+    public void acceptVisitor(CheckSetOptionVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
@@ -155,7 +167,5 @@ public class CycloComplexityCheck  implements SimpleCheckInterface{
         violationDetected = false;
         pushValue();
     }
-
-
 
 }
