@@ -1,59 +1,82 @@
 package brainmethodcheck;
 
-import java.math.BigInteger;
-import java.util.ArrayDeque;
-import java.util.Deque;
 
-import com.puppycrawl.tools.checkstyle.FileStatefulCheck;
+import checks.CheckType;
+import checks.complexitycheck.CycloComplexityCheck;
+import checks.complexitycheck.SetSwitchAsSingleLogicBlockVisitor;
+import checks.methodlencheck.MethodLengthCheck;
+import checks.methodlencheck.SetCountEmptyLinesVisitor;
+import checks.nestedlogiccheck.NestedLogicCheck;
+import checks.variablenumcheck.NumberOfVariablesCheck;
+import checks.contracts.SimpleCheckInterface;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
-@FileStatefulCheck
-public class BrainMethodCheck
-        extends AbstractCheck {
+import java.util.HashMap;
+import java.util.Map;
 
-    public static final String MSG_KEY = "brainMethod";
 
-    /** The initial current value. */
-    private static final BigInteger INITIAL_VALUE = BigInteger.ONE;
+/**
+ * A complex checker that uses "puppet" checkers to check for brain methods.
+ */
+public class BrainMethodCheck extends AbstractCheck {
 
-    /** Default allowed complexity. */
-    private static final int DEFAULT_COMPLEXITY_VALUE = 10;
+    public static final String MSG_KEY = "Brain Method";
 
-    /** Control whether to treat the whole switch block as a single decision point. */
-    private boolean switchBlockAsSingleDecisionPoint;
+    private final Map<CheckType, SimpleCheckInterface> checkers = new HashMap<>();
 
-    /** The current value. */
-    private BigInteger currentValue = INITIAL_VALUE;
+    public BrainMethodCheck() {
 
-    /** Specify the maximum threshold allowed. */
-    private int max = DEFAULT_COMPLEXITY_VALUE;
+        /* Just add all needed puppet checks */
+        checkers.putIfAbsent(CheckType.CYCLOMATIC_COMPLEXITY, new CycloComplexityCheck());
+        checkers.putIfAbsent(CheckType.NESTED_LOGIC, new NestedLogicCheck());
+        checkers.putIfAbsent(CheckType.METHOD_LENGTH, new MethodLengthCheck(getFileContents()));
+        checkers.putIfAbsent(CheckType.VARIABLE_QUANTITY, new NumberOfVariablesCheck());
+    }
 
-    private boolean failsCyclomatic;
-    private boolean failsLOC;
-    private boolean failsMaxNesting;
-    private boolean failsNumberOfVariables;
+    /**
+     * Set limits for all puppet checks.
+     */
+    public void setMaxComplexity(int max) {
+        checkers.get(CheckType.CYCLOMATIC_COMPLEXITY).setMax(max);
+    }
+
+    public void setMaxNesting(int max) {
+        checkers.get(CheckType.NESTED_LOGIC).setMax(max);
+    }
+
+    public void setMaxLines(int max) {
+        checkers.get(CheckType.METHOD_LENGTH).setMax(max);
+    }
+
+    public void setMaxVariables(int max) {
+        checkers.get(CheckType.VARIABLE_QUANTITY).setMax(max);
+    }
 
 
     /**
-     * Setter to control whether to treat the whole switch block as a single decision point.
-     *
-     * @param switchBlockAsSingleDecisionPoint whether to treat the whole switch
-     *                                          block as a single decision point.
+     * Set this option for the cyclomatic complexity check.
+     * @param switchBlockAsSingleDecisionPoint value
      */
     public void setSwitchBlockAsSingleDecisionPoint(boolean switchBlockAsSingleDecisionPoint) {
-        this.switchBlockAsSingleDecisionPoint = switchBlockAsSingleDecisionPoint;
+
+        SetSwitchAsSingleLogicBlockVisitor visitor = new SetSwitchAsSingleLogicBlockVisitor();
+        visitor.setOption(switchBlockAsSingleDecisionPoint);
+        checkers.get(CheckType.CYCLOMATIC_COMPLEXITY).acceptVisitor(visitor);
     }
 
     /**
-     * Setter to specify the maximum threshold allowed.
-     *
-     * @param max the maximum threshold
+     * Set this specific option to method length check.
+     * @param countEmpty value
      */
-    public final void setMax(int max) {
-        this.max = max;
+    public void setCountEmpty(boolean countEmpty) {
+
+        SetCountEmptyLinesVisitor visitor = new SetCountEmptyLinesVisitor();
+        visitor.setOption(countEmpty);
+        checkers.get(CheckType.METHOD_LENGTH).acceptVisitor(visitor);
     }
+
 
     @Override
     public int[] getDefaultTokens() {
@@ -72,6 +95,7 @@ public class BrainMethodCheck
                 TokenTypes.QUESTION,
                 TokenTypes.LAND,
                 TokenTypes.LOR,
+                TokenTypes.IDENT
 //                TokenTypes.COMPACT_CTOR_DEF,
         };
     }
@@ -93,6 +117,7 @@ public class BrainMethodCheck
                 TokenTypes.QUESTION,
                 TokenTypes.LAND,
                 TokenTypes.LOR,
+                TokenTypes.IDENT
 //                TokenTypes.COMPACT_CTOR_DEF,
         };
     }
@@ -108,83 +133,32 @@ public class BrainMethodCheck
         };
     }
 
+    /**
+     * Call all puppet checkers to do their visit job.
+     * @param ast token
+     */
     @Override
     public void visitToken(DetailAST ast) {
-        switch (ast.getType()) {
-            case TokenTypes.CTOR_DEF:
-            case TokenTypes.METHOD_DEF:
-            case TokenTypes.INSTANCE_INIT:
-            case TokenTypes.STATIC_INIT:
-//            case TokenTypes.COMPACT_CTOR_DEF:
-                visitMethodDef();
-                break;
-            default:
-                visitTokenHook(ast);
-        }
+        checkers.values().forEach(checker -> checker.visitToken(ast));
     }
 
+    /**
+     * Call all puppet checkers to do their leaving job.
+     * If we left a method, check whether all puppet checkers report violation.
+     * @param ast token
+     */
     @Override
     public void leaveToken(DetailAST ast) {
-        switch (ast.getType()) {
-            case TokenTypes.CTOR_DEF:
-            case TokenTypes.METHOD_DEF:
-            case TokenTypes.INSTANCE_INIT:
-            case TokenTypes.STATIC_INIT:
-//            case TokenTypes.COMPACT_CTOR_DEF:
-                leaveMethodDef(ast);
-                break;
-            default:
-                break;
-        }
-    }
+        checkers.values().forEach(checker -> checker.leaveToken(ast));
 
-    /**
-     * Hook called when visiting a token. Will not be called the method
-     * definition tokens.
-     *
-     * @param ast the token being visited
-     */
-    private void visitTokenHook(DetailAST ast) {
-        if (switchBlockAsSingleDecisionPoint) {
-            if (ast.getType() != TokenTypes.LITERAL_CASE) {
-                incrementCurrentValue(BigInteger.ONE);
+        if (ast.getType() == TokenTypes.METHOD_DEF || ast.getType() == TokenTypes.CTOR_DEF) {
+
+            if (checkers.values().stream().map(SimpleCheckInterface::isViolationDetected)
+                    .reduce(true, (accumulator, element) -> accumulator && element)) {
+
+                log(ast, MSG_KEY);
             }
         }
-        else if (ast.getType() != TokenTypes.LITERAL_SWITCH) {
-            incrementCurrentValue(BigInteger.ONE);
-        }
-    }
-
-    /**
-     * Process the end of a method definition.
-     *
-     * @param ast the token representing the method definition
-     */
-    private void leaveMethodDef(DetailAST ast) {
-        final BigInteger bigIntegerMax = BigInteger.valueOf(max);
-        if (currentValue.compareTo(bigIntegerMax) > 0) {
-            log(ast, MSG_KEY, currentValue, bigIntegerMax);
-        }
-//        popValue();
-    }
-
-    /**
-     * Increments the current value by a specified amount.
-     *
-     * @param amount the amount to increment by
-     */
-    private void incrementCurrentValue(BigInteger amount) {
-        currentValue = currentValue.add(amount);
-    }
-
-
-    /** Process the start of the method definition. */
-    private void visitMethodDef() {
-//        pushValue();
-        failsCyclomatic = false;
-        failsNumberOfVariables = false;
-        failsLOC = false;
-        failsMaxNesting = false;
     }
 
 }
