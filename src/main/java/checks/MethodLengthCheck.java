@@ -5,24 +5,45 @@ import com.puppycrawl.tools.checkstyle.api.FileContents;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
 
+
 public class MethodLengthCheck {
 
-    private static final int DEFAULT_MAX_LINES = 150;
+    private static final int DEFAULT_MAX_LINES = 50;
 
     private boolean countEmpty = true;
 
     private int max = DEFAULT_MAX_LINES;
 
-    public boolean visitToken(DetailAST ast, FileContents fileContents) {
-        final DetailAST openingBrace = ast.findFirstToken(TokenTypes.SLIST);
-        if (openingBrace != null) {
-            final DetailAST closingBrace =
-                    openingBrace.findFirstToken(TokenTypes.RCURLY);
-            final int length = getLengthOfBlock(openingBrace, closingBrace, fileContents);
-            return length > max;
-        }
-        return false;
+    private boolean violates;
+
+    private FileContents fileContents;
+
+    public MethodLengthCheck(FileContents fileContents) {
+        this.fileContents = fileContents;
     }
+
+    public void visitToken(DetailAST ast) {
+        switch (ast.getType()) {
+            case TokenTypes.CTOR_DEF:
+            case TokenTypes.METHOD_DEF:
+                violates = false;
+                final DetailAST openingBrace = ast.findFirstToken(TokenTypes.SLIST);
+                if (openingBrace != null) {
+                    final DetailAST closingBrace =
+                            openingBrace.findFirstToken(TokenTypes.RCURLY);
+                    final int length = getLengthOfBlock(openingBrace, closingBrace);
+                    violates = length > max;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void leaveToken(DetailAST ast) {
+
+    }
+
 
     /**
      * Returns length of code only without comments and blank lines.
@@ -31,7 +52,7 @@ public class MethodLengthCheck {
      * @param closingBrace block closing brace
      * @return number of lines with code for current block
      */
-    protected int getLengthOfBlock(DetailAST openingBrace, DetailAST closingBrace, FileContents fileContents) {
+    private int getLengthOfBlock(DetailAST openingBrace, DetailAST closingBrace) {
         int length = closingBrace.getLineNo() - openingBrace.getLineNo() + 1;
 
         if (!countEmpty) {
@@ -66,6 +87,10 @@ public class MethodLengthCheck {
      */
     public void setCountEmpty(boolean countEmpty) {
         this.countEmpty = countEmpty;
+    }
+
+    public boolean getViolates() {
+        return violates;
     }
 
 }
