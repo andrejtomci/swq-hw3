@@ -1,5 +1,6 @@
 package checks;
 
+import checks.nestedlogiccheck.NestedLogicCheck;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
