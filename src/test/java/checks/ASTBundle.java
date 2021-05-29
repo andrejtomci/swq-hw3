@@ -1,27 +1,27 @@
 package checks;
 
-import com.puppycrawl.tools.checkstyle.api.DetailAST;
+import com.puppycrawl.tools.checkstyle.DetailAstImpl;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
 class ASTBundle {
 
 
-    public DetailAST methodAST = new DetailAST();
-    public DetailAST initAST = new DetailAST();
-    public DetailAST constructorAST = new DetailAST();
-    public DetailAST staticInitAST = new DetailAST();
-    public DetailAST forAST = new DetailAST();
-    public DetailAST whileAST = new DetailAST();
-    public DetailAST ifAST = new DetailAST();
-    public DetailAST switchAST = new DetailAST();
-    public DetailAST caseAST = new DetailAST();
-    public DetailAST catchAST = new DetailAST();
-    public DetailAST landAST = new DetailAST();
-    public DetailAST lorAST = new DetailAST();
-    public DetailAST questionAST = new DetailAST();
-    public DetailAST doAST = new DetailAST();
+    public DetailAstImpl methodAST = new DetailAstImpl();
+    public DetailAstImpl initAST = new DetailAstImpl();
+    public DetailAstImpl constructorAST = new DetailAstImpl();
+    public DetailAstImpl staticInitAST = new DetailAstImpl();
+    public DetailAstImpl forAST = new DetailAstImpl();
+    public DetailAstImpl whileAST = new DetailAstImpl();
+    public DetailAstImpl ifAST = new DetailAstImpl();
+    public DetailAstImpl switchAST = new DetailAstImpl();
+    public DetailAstImpl caseAST = new DetailAstImpl();
+    public DetailAstImpl catchAST = new DetailAstImpl();
+    public DetailAstImpl landAST = new DetailAstImpl();
+    public DetailAstImpl lorAST = new DetailAstImpl();
+    public DetailAstImpl questionAST = new DetailAstImpl();
+    public DetailAstImpl doAST = new DetailAstImpl();
 
-    public DetailAST variableAST = new DetailAST();
+    public DetailAstImpl variableAST = new DetailAstImpl();
 
 
     ASTBundle() {

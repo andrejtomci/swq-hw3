@@ -8,6 +8,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.Set;
 
 public class NumberOfVariablesCheck  implements SimpleCheckInterface {
 
@@ -15,8 +16,8 @@ public class NumberOfVariablesCheck  implements SimpleCheckInterface {
     private int max = DEFAULT_MAX_VARIABLES;
     private boolean violationDetected;
 
-    private HashSet<String> variables;
-    private final Deque<HashSet<String>> valueStack = new ArrayDeque<>();
+    private Set<String> variables = new HashSet<>();
+    private final Deque<Set<String>> valueStack = new ArrayDeque<>();
 
     @Override
     public void visitToken(DetailAST ast) {

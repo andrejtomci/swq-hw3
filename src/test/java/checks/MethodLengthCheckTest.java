@@ -12,8 +12,8 @@ import static org.junit.Assert.assertTrue;
 public class MethodLengthCheckTest {
     @Test
     public void testVisitToken() {
-        DetailAST mockedAst = new DetailAST();
-        FileContents mockedFileContents = new FileContents("test", "test");
+        //DetailAST mockedAst = new DetailAST();
+        //FileContents mockedFileContents = new FileContents("test", "test");
 
         //MethodLengthCheck lengthCheck = new MethodLengthCheck();
         //when(lengthCheck.getLengthOfBlock(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(1);

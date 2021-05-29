@@ -153,6 +153,7 @@ public class BrainMethodCheck extends AbstractCheck {
 
         if (ast.getType() == TokenTypes.METHOD_DEF || ast.getType() == TokenTypes.CTOR_DEF) {
 
+            /* call reporting and fold results with LAND*/
             if (checkers.values().stream().map(SimpleCheckInterface::isViolationDetected)
                     .reduce(true, (accumulator, element) -> accumulator && element)) {
 
