@@ -63,7 +63,7 @@ public class NestedLogicCheck  implements SimpleCheckInterface {
      * @param max the maximum threshold
      */
     @Override
-    public final void setMax(int max) {
+    public final void setLimit(int max) {
         this.max = max;
     }
 

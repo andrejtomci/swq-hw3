@@ -16,7 +16,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.forAST);
@@ -31,7 +31,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(2);
+        check.setLimit(2);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.forAST);
@@ -46,7 +46,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.variableAST);
@@ -61,7 +61,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.leaveToken(astBundle.methodAST);
@@ -76,7 +76,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.whileAST);
@@ -91,7 +91,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.ifAST);
@@ -106,7 +106,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.doAST);
@@ -121,7 +121,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
         check.setSwitchBlockAsSingleDecisionPoint(true);
 
         check.visitToken(astBundle.methodAST);
@@ -137,7 +137,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.caseAST);
@@ -152,7 +152,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.catchAST);
@@ -167,7 +167,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.questionAST);
@@ -182,7 +182,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.landAST);
@@ -197,7 +197,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.lorAST);
@@ -212,7 +212,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.constructorAST);
         check.visitToken(astBundle.forAST);
@@ -227,7 +227,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.initAST);
         check.visitToken(astBundle.forAST);
@@ -242,7 +242,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.staticInitAST);
         check.visitToken(astBundle.forAST);
@@ -257,7 +257,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.constructorAST);
         check.visitToken(astBundle.forAST);
@@ -275,7 +275,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(4);
+        check.setLimit(4);
 
         check.visitToken(astBundle.constructorAST);
         check.visitToken(astBundle.forAST);
@@ -296,7 +296,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(4);
+        check.setLimit(4);
 
         check.visitToken(astBundle.constructorAST);
         check.visitToken(astBundle.forAST);
@@ -319,7 +319,7 @@ public class CycloComplexityTest {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
 
-        check.setMax(4);
+        check.setLimit(4);
 
         check.visitToken(astBundle.constructorAST);
         check.visitToken(astBundle.forAST);

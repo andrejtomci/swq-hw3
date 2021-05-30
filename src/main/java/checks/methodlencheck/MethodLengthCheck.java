@@ -79,7 +79,7 @@ public class MethodLengthCheck implements SimpleCheckInterface {
      * @param length the maximum length of a method.
      */
     @Override
-    public void setMax(int length) {
+    public void setLimit(int length) {
         max = length;
     }
 

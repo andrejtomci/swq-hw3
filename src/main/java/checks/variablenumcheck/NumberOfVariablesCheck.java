@@ -76,7 +76,7 @@ public class NumberOfVariablesCheck  implements SimpleCheckInterface {
     }
 
     @Override
-    public void setMax(int numberOfVariables) {
+    public void setLimit(int numberOfVariables) {
         max = numberOfVariables;
     }
 

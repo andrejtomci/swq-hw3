@@ -16,7 +16,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.forAST);
@@ -33,7 +33,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(2);
+        check.setLimit(2);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.forAST);
@@ -50,7 +50,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.variableAST);
@@ -68,7 +68,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.leaveToken(astBundle.methodAST);
@@ -85,7 +85,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.whileAST);
@@ -102,7 +102,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.ifAST);
@@ -119,7 +119,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.doAST);
@@ -136,7 +136,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.switchAST);
@@ -153,7 +153,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.catchAST);
@@ -170,7 +170,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.questionAST);
@@ -188,7 +188,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.constructorAST);
         check.visitToken(astBundle.forAST);
@@ -205,7 +205,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.initAST);
         check.visitToken(astBundle.forAST);
@@ -222,7 +222,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.staticInitAST);
         check.visitToken(astBundle.forAST);
@@ -239,7 +239,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(1);
+        check.setLimit(1);
 
         check.visitToken(astBundle.constructorAST);
         check.visitToken(astBundle.forAST);
@@ -259,7 +259,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(2);
+        check.setLimit(2);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.forAST);
@@ -278,7 +278,7 @@ public class NestedLogicTest {
 
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(2);
+        check.setLimit(2);
 
         check.visitToken(astBundle.methodAST);
         check.visitToken(astBundle.forAST);
@@ -298,7 +298,7 @@ public class NestedLogicTest {
     public void invalidTreeWalkThrows() {
         NestedLogicCheck check = new NestedLogicCheck();
 
-        check.setMax(2);
+        check.setLimit(2);
 
         check.visitToken(astBundle.methodAST);
         assertThrows(IllegalStateException.class, () -> check.leaveToken(astBundle.forAST));

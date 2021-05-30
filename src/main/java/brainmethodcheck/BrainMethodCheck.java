@@ -41,19 +41,19 @@ public class BrainMethodCheck extends AbstractCheck {
      * Set limits for all puppet checks.
      */
     public void setMaxComplexity(int max) {
-        checkers.get(CheckType.CYCLOMATIC_COMPLEXITY).setMax(max);
+        checkers.get(CheckType.CYCLOMATIC_COMPLEXITY).setLimit(max);
     }
 
     public void setMaxNesting(int max) {
-        checkers.get(CheckType.NESTED_LOGIC).setMax(max);
+        checkers.get(CheckType.NESTED_LOGIC).setLimit(max);
     }
 
     public void setMaxLines(int max) {
-        checkers.get(CheckType.METHOD_LENGTH).setMax(max);
+        checkers.get(CheckType.METHOD_LENGTH).setLimit(max);
     }
 
     public void setMaxVariables(int max) {
-        checkers.get(CheckType.VARIABLE_QUANTITY).setMax(max);
+        checkers.get(CheckType.VARIABLE_QUANTITY).setLimit(max);
     }
 
 

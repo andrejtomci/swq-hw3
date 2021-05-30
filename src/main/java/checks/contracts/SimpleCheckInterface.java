@@ -31,9 +31,9 @@ public interface SimpleCheckInterface {
 
     /**
      * Set the limit for the specific checker
-     * @param max the limit
+     * @param limit the limit - upper/lower depending o the implementer needs
      */
-    void setMax(int max);
+    void setLimit(int limit);
 
     void acceptVisitor(CheckSetOptionVisitor visitor);
     void acceptVisitor(CheckUpdateFileContentsVisitor visitor);
