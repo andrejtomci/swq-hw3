@@ -14,6 +14,12 @@ import java.util.Set;
 /**
  * Puppet checker class to search for methods with too many variables
  * Based on checkstyles cyclomatic complexity check.
+ *
+ * We use blacklist approach and filter out non attribute/variable/parameter IDENTs.
+ * This covers most "standard" features of the language, however, there are still some constructs that break the check.
+ * Other possible approach would be to whitelist the names, but that still isn't bulletproof.
+ * Another possible way would be to only count VARIABLE_DEF and PARAMETER_DEF, but that doesn't handle attributes (as requested in specification).
+ * We consider this to be a bit too much context dependent.
  */
 public class NumberOfVariablesCheck  implements SimpleCheckInterface {
 
@@ -65,8 +71,15 @@ public class NumberOfVariablesCheck  implements SimpleCheckInterface {
         if (ast.getParent() == null) {
             return;
         }
-        if (ast.getParent().getType() == TokenTypes.VARIABLE_DEF || ast.getParent().getType() == TokenTypes.PARAMETER_DEF) {
-            variables.add(ast.getText());
+        switch (ast.getParent().getType()) {
+            case TokenTypes.METHOD_CALL:
+            case TokenTypes.TYPE:
+            case TokenTypes.TYPE_ARGUMENT:
+            case TokenTypes.LITERAL_NEW:
+            case TokenTypes.DOT:
+                return;
+            default:
+                variables.add(ast.getText());
         }
     }
 
