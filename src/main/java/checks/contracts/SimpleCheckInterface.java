@@ -36,4 +36,6 @@ public interface SimpleCheckInterface {
     void setMax(int max);
 
     void acceptVisitor(CheckSetOptionVisitor visitor);
+    void acceptVisitor(CheckUpdateFileContentsVisitor visitor);
+
 }

@@ -10,7 +10,7 @@ import checks.variablenumcheck.NumberOfVariablesCheck;
  * A visitor class for setting some options for specific checkers, that others do not have.
  * To not use too broad interfaces or not rely on calling "instanceof", the visitor patterns seem a better option.
  */
-public interface CheckSetOptionVisitor<T> {
+public interface CheckSetOptionVisitor {
 
     /**
      * Traditional visit methods.
@@ -25,9 +25,9 @@ public interface CheckSetOptionVisitor<T> {
 
     /**
      * Sets the desired option that will be set.
-     * @param value
+     * @param value the boolean value
      */
-    void setOption(T value);
+    void setOption(boolean value);
 
 
 }

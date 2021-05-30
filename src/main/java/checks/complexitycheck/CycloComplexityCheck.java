@@ -1,6 +1,7 @@
 package checks.complexitycheck;
 
 import checks.contracts.CheckSetOptionVisitor;
+import checks.contracts.CheckUpdateFileContentsVisitor;
 import checks.contracts.SimpleCheckInterface;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
@@ -64,6 +65,11 @@ public class CycloComplexityCheck  implements SimpleCheckInterface {
 
     @Override
     public void acceptVisitor(CheckSetOptionVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public void acceptVisitor(CheckUpdateFileContentsVisitor visitor) {
         visitor.visit(this);
     }
 

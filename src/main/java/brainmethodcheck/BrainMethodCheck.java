@@ -4,6 +4,8 @@ package brainmethodcheck;
 import checks.CheckType;
 import checks.complexitycheck.CycloComplexityCheck;
 import checks.complexitycheck.SetSwitchAsSingleLogicBlockVisitor;
+import checks.contracts.CheckUpdateFileContentsVisitor;
+import checks.contracts.UpdateFileContentsVisitorImpl;
 import checks.methodlencheck.MethodLengthCheck;
 import checks.methodlencheck.SetCountEmptyLinesVisitor;
 import checks.nestedlogiccheck.NestedLogicCheck;
@@ -31,7 +33,7 @@ public class BrainMethodCheck extends AbstractCheck {
         /* Just add all needed puppet checks */
         checkers.putIfAbsent(CheckType.CYCLOMATIC_COMPLEXITY, new CycloComplexityCheck());
         checkers.putIfAbsent(CheckType.NESTED_LOGIC, new NestedLogicCheck());
-        checkers.putIfAbsent(CheckType.METHOD_LENGTH, new MethodLengthCheck(getFileContents()));
+        checkers.putIfAbsent(CheckType.METHOD_LENGTH, new MethodLengthCheck());
         checkers.putIfAbsent(CheckType.VARIABLE_QUANTITY, new NumberOfVariablesCheck());
     }
 
@@ -139,7 +141,21 @@ public class BrainMethodCheck extends AbstractCheck {
      */
     @Override
     public void visitToken(DetailAST ast) {
+
+        /* because fileContents is null in the constructor and
+            switching files needs to propagate, set it here
+         */
+        updateMethodLenFileContents();
+
         checkers.values().forEach(checker -> checker.visitToken(ast));
+    }
+
+    private void updateMethodLenFileContents() {
+
+        CheckUpdateFileContentsVisitor visitor = new UpdateFileContentsVisitorImpl();
+        visitor.setFileContents(getFileContents());
+
+        checkers.get(CheckType.METHOD_LENGTH).acceptVisitor(visitor);
     }
 
     /**

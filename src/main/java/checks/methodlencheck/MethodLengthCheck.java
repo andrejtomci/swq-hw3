@@ -1,6 +1,7 @@
 package checks.methodlencheck;
 
 import checks.contracts.CheckSetOptionVisitor;
+import checks.contracts.CheckUpdateFileContentsVisitor;
 import checks.contracts.SimpleCheckInterface;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
@@ -22,11 +23,7 @@ public class MethodLengthCheck implements SimpleCheckInterface {
 
     private boolean violationDetected;
 
-    private final FileContents fileContents;
-
-    public MethodLengthCheck(FileContents fileContents) {
-        this.fileContents = fileContents;
-    }
+    private FileContents fileContents;
 
     @Override
     public void visitToken(DetailAST ast) {
@@ -91,6 +88,11 @@ public class MethodLengthCheck implements SimpleCheckInterface {
         visitor.visit(this);
     }
 
+    @Override
+    public void acceptVisitor(CheckUpdateFileContentsVisitor visitor) {
+        visitor.visit(this);
+    }
+
     /**
      * Setter to control whether to count empty lines and single line comments
      * of the form {@code //}.
@@ -105,6 +107,10 @@ public class MethodLengthCheck implements SimpleCheckInterface {
     @Override
     public boolean isViolationDetected() {
         return violationDetected;
+    }
+
+    public void updateFileContents( FileContents contents) {
+        this.fileContents = contents;
     }
 
 }
