@@ -61,12 +61,22 @@ public class NumberOfVariablesCheck  implements SimpleCheckInterface {
         return violationDetected;
     }
 
+    /**
+     *
+     * Process beginning of a method definition.
+     */
     private void visitMethodDef() {
         violationDetected = false;
         valueStack.push(variables);
         variables = new HashSet<>();
     }
 
+    /**
+     * Hook called when visiting a token. Will not be called the method
+     * definition tokens.
+     *
+     * @param ast the token being visited
+     */
     private void visitTokenHook(DetailAST ast) {
         if (ast.getParent() == null) {
             return;
@@ -83,6 +93,9 @@ public class NumberOfVariablesCheck  implements SimpleCheckInterface {
         }
     }
 
+    /**
+     * Process the end of a method definition.
+     */
     private void leaveMethodDef() {
         violationDetected = variables.size() > max;
         variables = valueStack.pop();
