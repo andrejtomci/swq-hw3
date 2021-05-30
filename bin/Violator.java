@@ -26,6 +26,11 @@ public class Violator {
         return; 
     }
 
+    /* a method to check whether results are reset on new method */
+    public void reseter(int a) {
+        return a + 3;
+    }
+
     public void bar() {
         
         int a = 1;
