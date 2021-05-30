@@ -88,9 +88,6 @@ public class NestedLogicCheck  implements SimpleCheckInterface {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
             case TokenTypes.METHOD_DEF:
-            case TokenTypes.INSTANCE_INIT:
-            case TokenTypes.STATIC_INIT:
-                // case TokenTypes.COMPACT_CTOR_DEF:
                 visitMethodDef();
                 break;
 
@@ -114,9 +111,6 @@ public class NestedLogicCheck  implements SimpleCheckInterface {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
             case TokenTypes.METHOD_DEF:
-            case TokenTypes.INSTANCE_INIT:
-            case TokenTypes.STATIC_INIT:
-                //case TokenTypes.COMPACT_CTOR_DEF:
                 leaveMethodDef();
                 break;
             case TokenTypes.LITERAL_WHILE:

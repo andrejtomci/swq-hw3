@@ -25,8 +25,6 @@ public class NumberOfVariablesCheck  implements SimpleCheckInterface {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
             case TokenTypes.METHOD_DEF:
-            case TokenTypes.INSTANCE_INIT:
-            case TokenTypes.STATIC_INIT:
                 visitMethodDef();
                 break;
             case TokenTypes.IDENT:
@@ -41,8 +39,6 @@ public class NumberOfVariablesCheck  implements SimpleCheckInterface {
         switch (ast.getType()) {
             case TokenTypes.CTOR_DEF:
             case TokenTypes.METHOD_DEF:
-            case TokenTypes.INSTANCE_INIT:
-            case TokenTypes.STATIC_INIT:
                 leaveMethodDef();
                 break;
             default:

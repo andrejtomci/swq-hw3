@@ -27,9 +27,7 @@ class ASTBundle {
     ASTBundle() {
 
         methodAST.setType(TokenTypes.METHOD_DEF);
-        initAST.setType(TokenTypes.INSTANCE_INIT);
         constructorAST.setType(TokenTypes.CTOR_DEF);
-        staticInitAST.setType(TokenTypes.STATIC_INIT);
         forAST.setType(TokenTypes.LITERAL_FOR);
         whileAST.setType(TokenTypes.LITERAL_WHILE);
         ifAST.setType(TokenTypes.LITERAL_IF);

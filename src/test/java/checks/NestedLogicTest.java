@@ -201,40 +201,6 @@ public class NestedLogicTest {
     }
 
     @Test
-    public void testInitializationChecked() {
-
-        NestedLogicCheck check = new NestedLogicCheck();
-
-        check.setLimit(1);
-
-        check.visitToken(astBundle.initAST);
-        check.visitToken(astBundle.forAST);
-        check.visitToken(astBundle.forAST);
-        check.leaveToken(astBundle.forAST);
-        check.leaveToken(astBundle.forAST);
-        check.leaveToken(astBundle.initAST);
-
-        assertTrue(check.isViolationDetected());
-    }
-
-    @Test
-    public void testStaticInitializationChecked() {
-
-        NestedLogicCheck check = new NestedLogicCheck();
-
-        check.setLimit(1);
-
-        check.visitToken(astBundle.staticInitAST);
-        check.visitToken(astBundle.forAST);
-        check.visitToken(astBundle.forAST);
-        check.leaveToken(astBundle.forAST);
-        check.leaveToken(astBundle.forAST);
-        check.leaveToken(astBundle.staticInitAST);
-
-        assertTrue(check.isViolationDetected());
-    }
-
-    @Test
     public void testNestedMethods() {
 
         NestedLogicCheck check = new NestedLogicCheck();

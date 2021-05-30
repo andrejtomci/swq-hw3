@@ -85,8 +85,6 @@ public class BrainMethodCheck extends AbstractCheck {
         return new int[] {
                 TokenTypes.CTOR_DEF,
                 TokenTypes.METHOD_DEF,
-                TokenTypes.INSTANCE_INIT,
-                TokenTypes.STATIC_INIT,
                 TokenTypes.LITERAL_WHILE,
                 TokenTypes.LITERAL_DO,
                 TokenTypes.LITERAL_FOR,
@@ -98,7 +96,6 @@ public class BrainMethodCheck extends AbstractCheck {
                 TokenTypes.LAND,
                 TokenTypes.LOR,
                 TokenTypes.IDENT
-//                TokenTypes.COMPACT_CTOR_DEF,
         };
     }
 
@@ -107,8 +104,6 @@ public class BrainMethodCheck extends AbstractCheck {
         return new int[] {
                 TokenTypes.CTOR_DEF,
                 TokenTypes.METHOD_DEF,
-                TokenTypes.INSTANCE_INIT,
-                TokenTypes.STATIC_INIT,
                 TokenTypes.LITERAL_WHILE,
                 TokenTypes.LITERAL_DO,
                 TokenTypes.LITERAL_FOR,
@@ -120,7 +115,6 @@ public class BrainMethodCheck extends AbstractCheck {
                 TokenTypes.LAND,
                 TokenTypes.LOR,
                 TokenTypes.IDENT
-//                TokenTypes.COMPACT_CTOR_DEF,
         };
     }
 
@@ -129,9 +123,6 @@ public class BrainMethodCheck extends AbstractCheck {
         return new int[] {
                 TokenTypes.CTOR_DEF,
                 TokenTypes.METHOD_DEF,
-                TokenTypes.INSTANCE_INIT,
-                TokenTypes.STATIC_INIT,
-//                TokenTypes.COMPACT_CTOR_DEF,
         };
     }
 

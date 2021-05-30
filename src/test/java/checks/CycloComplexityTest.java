@@ -223,36 +223,6 @@ public class CycloComplexityTest {
     }
 
     @Test
-    public void testInitializationChecked() {
-
-        CycloComplexityCheck check = new CycloComplexityCheck();
-
-        check.setLimit(1);
-
-        check.visitToken(astBundle.initAST);
-        check.visitToken(astBundle.forAST);
-        check.leaveToken(astBundle.forAST);
-        check.leaveToken(astBundle.initAST);
-
-        assertTrue(check.isViolationDetected());
-    }
-
-    @Test
-    public void testStaticInitializationChecked() {
-
-        CycloComplexityCheck check = new CycloComplexityCheck();
-
-        check.setLimit(1);
-
-        check.visitToken(astBundle.staticInitAST);
-        check.visitToken(astBundle.forAST);
-        check.leaveToken(astBundle.forAST);
-        check.leaveToken(astBundle.staticInitAST);
-
-        assertTrue(check.isViolationDetected());
-    }
-
-    @Test
     public void testNestedMethods() {
 
         CycloComplexityCheck check = new CycloComplexityCheck();
