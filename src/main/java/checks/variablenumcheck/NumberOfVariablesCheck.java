@@ -83,6 +83,7 @@ public class NumberOfVariablesCheck  implements SimpleCheckInterface {
         }
         switch (ast.getParent().getType()) {
             case TokenTypes.METHOD_CALL:
+            case TokenTypes.METHOD_DEF:
             case TokenTypes.TYPE:
             case TokenTypes.TYPE_ARGUMENT:
             case TokenTypes.LITERAL_NEW:
