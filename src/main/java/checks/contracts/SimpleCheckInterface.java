@@ -35,6 +35,13 @@ public interface SimpleCheckInterface {
      */
     void setLimit(int limit);
 
+    /**
+     * Some implementation need access to fileContents, or have
+     * one or more settable options. As we cannot require all implementers to
+     * override methods they do not need, we rather opted for requiring them to accept visitors,
+     * who will be able to set any option they are programmed for, and the implementer allows.
+     * @param visitor - the visitor to accept
+     */
     void acceptVisitor(CheckSetOptionVisitor visitor);
     void acceptVisitor(CheckUpdateFileContentsVisitor visitor);
 
