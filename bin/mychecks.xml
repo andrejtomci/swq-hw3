@@ -37,6 +37,7 @@
                 <property name="maxNesting" value="3"/>
                 <property name="maxLines" value="15"/>
                 <property name="maxVariables" value="5"/>
+                <property name="countEmpty" value="false"/>
             </module>
 
 
