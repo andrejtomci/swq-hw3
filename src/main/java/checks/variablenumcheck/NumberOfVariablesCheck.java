@@ -11,6 +11,10 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Puppet checker class to search for methods with too many variables
+ * Based on checkstyles cyclomatic complexity check.
+ */
 public class NumberOfVariablesCheck  implements SimpleCheckInterface {
 
     private static final int DEFAULT_MAX_VARIABLES = 10;
